@@ -1,0 +1,33 @@
+lightning_logs
+ccrun.sh
+ccrun_tester.sh
+
+openai.key
+
+__pycache__
+.Rhistory
+.Rapp.history
+~$*
+
+.idea/**
+Temp/**
+data/**
+models/**
+
+
+## Windows Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+## OSX
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.AppleDB
+.AppleDesktop
+.apdisk
