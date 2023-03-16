@@ -60,6 +60,8 @@ Files in this folder are to generate, pre-process and use datasets.
   * `synthetic_basic_generator.py`: This file generates synthetic datasets with several transformations (such as _Syn_ dataset) that is used to test the model.
 
 ##### deep_models
+This directory includes files to train and use the model.
+
 * `byt5`: To Train and run a basic test with the main model (based on ByT5 model). See details for each file.
   * `byt5trainer.py`: This file will train (finetune) a model given a set of training data.
   * `load_model.py`: A basic example of using the trained model for transformation. If you are interested in running the model without any finetuning or changes, just download the pretrained model provided in the models section, set the model path in `MODEL_PATH` variable and run the file.
