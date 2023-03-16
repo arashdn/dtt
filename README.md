@@ -44,12 +44,30 @@ Before using each dataset to test the model, it should be broken to training exa
 
 
 ### src
-The source files are located in `src` directory:
+The source files are located in `src` directory. This directory contains three sub-directories.
 
 
-Details will be added.
+##### data_processor
+Files in this folder are to generate, pre-process and use datasets.
+* `table2sample.py`: It takes a dataset as input and transforms it into the sample set that can be used for training the model.
+* `table_breaker`: See details for each file.
+  * `table_breaker.py`: This file will break a dataset into training examples and a test set.
+  * `run_breaker.sh`: This file contains examples of using `table_breaker.py` and its command line arguments, as well as using it for many datasets automatically.
+* `synthetic_generator/string_transformations`: To generate synthetic datasets. See details for each file.
+  * `Transformation`: Just libraries of transformations. Not to be used directly. 
+  * `basic_generator.py`: This file is used to generate a synthetic sample set that is used to train the model. 
+  * `single_basic_generator.py`: This file generates synthetic datasets with one transformation (such as _Syn-RP_, _Syn-ST_, and _Syn-RV_ datasets) that are used to test the model.
+  * `synthetic_basic_generator.py`: This file generates synthetic datasets with several transformations (such as _Syn_ dataset) that is used to test the model.
+
+##### deep_models
+@TODO: This section will be added.
 
 
+
+##### analyzer
+The codes in this directory just summarize the results of the model into short tables.
+- `result_tlb_summary.py`: get the summary of output when several models are used to transform the data.
+- `len_tlb_summary.py`: get the summary of output when several input lengths are experimented.
 
 
 ## Citation
