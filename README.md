@@ -58,6 +58,9 @@ Files in this folder are to generate, pre-process and use datasets.
   * `basic_generator.py`: This file is used to generate a synthetic sample set that is used to train the model. 
   * `single_basic_generator.py`: This file generates synthetic datasets with one transformation (such as _Syn-RP_, _Syn-ST_, and _Syn-RV_ datasets) that are used to test the model.
   * `synthetic_basic_generator.py`: This file generates synthetic datasets with several transformations (such as _Syn_ dataset) that is used to test the model.
+* `synthetic_generator/noise_generator`: To manually add noise to the datasets. See details for each file.
+  * `dataset_noiser.py`: To corrupt a specific percentage of rows, adding noise to datasets and saving them as a new dataset.
+  * `run_noiser.sh`: This file contains examples of using `dataset_noiser.py` and its command line arguments, as well as using it for many datasets.
 
 ##### deep_models
 This directory includes files to train and use the model.
@@ -65,13 +68,14 @@ This directory includes files to train and use the model.
 * `byt5`: To Train and run a basic test with the main model (based on ByT5 model). See details for each file.
   * `byt5trainer.py`: This file will train (finetune) a model given a set of training data.
   * `load_model.py`: A basic example of using the trained model for transformation. If you are interested in running the model without any finetuning or changes, just download the pretrained model provided in the models section, set the model path in `MODEL_PATH` variable and run the file.
-* `T5`: The same setting for T5 model. The T5-Based model is not complete and is only used to run some tests.
 * `JoinEval.py`: Libraries to evaluate the performance of table joining. 
 * `Util.py`: Some common functions.
 * `tester.py`: This is a large file used to test the model on various datasets. The parameters can be set inside the code or be passed via command line arguments. There are three files that exemplify how the tester file may be used:
   * `run_tester.sh`: This file is an example of how a single instance of `tester.py` can be called. Also, it contains shell code to test several models on various datasets. 
   * `run_len_tester.sh`: This file is an example of running `tester.py` on datasets with various input lengths.
+  * `run_noise_tester.sh`: This file is an example of running `tester.py` on datasets that had been manually noised. The only difference is in the dataset directory.
   * `run_gpt_tester.sh`: This file uses `tester.py` with GPT-3 model. Please make sure your OpenAI API key is stored in `openai.key` file in `deep_models` directory.
+  * `run_two_model_tester.sh`: This file uses `tester.py` with a combined setting for DTT and GPT-3 model. Please make sure your OpenAI API key is stored in `openai.key` file in `deep_models` directory.
 
 
 ##### analyzer
