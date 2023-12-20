@@ -4,6 +4,7 @@ import pathlib
 
 BASE_PATH = str(pathlib.Path(__file__).absolute().parent.parent.parent.absolute())
 OUT_DIR_PATH = BASE_PATH + f"/data/output_len8_35/"
+# OUT_DIR_PATH = BASE_PATH + f"/data/output_two_model/"
 # OUT_DIR_PATH = BASE_PATH + f"/data/output_gpt/extend_5_samples/"
 # change tmp = file_key.split("_DS_") for GPT3-based models
 
@@ -23,6 +24,7 @@ if __name__ == "__main__":
         tmp = file_key.split("__DS_")
         # tmp = file_key.split("_DS_")
         assert len(tmp) == 2
+        file_db_name = tmp[1]
         file_key = tmp[0].replace(FILE_PREFIX, "")
 
 
@@ -32,6 +34,7 @@ if __name__ == "__main__":
         dataset_template = {
             'FF': {'p': [], 'r': [], 'f1': [], 'correct': [], 'len': [], 'avg_edit_dist': [], 'avg_norm_edit_dist': [],'time': [], },
             'AJ': {'p': [], 'r': [], 'f1': [], 'correct': [], 'len': [], 'avg_edit_dist': [], 'avg_norm_edit_dist': [],'time': [], },
+            'DXF': {'p': [], 'r': [], 'f1': [], 'correct': [], 'len': [], 'avg_edit_dist': [], 'avg_norm_edit_dist': [],'time': [], },
             'Synthetic_basic': {'p': [], 'r': [], 'f1': [], 'correct': [], 'len': [], 'avg_edit_dist': [], 'avg_norm_edit_dist': [],'time': [], },
             'Single_Substr': {'p': [], 'r': [], 'f1': [], 'correct': [], 'len': [], 'avg_edit_dist': [], 'avg_norm_edit_dist': [],'time': [], },
             'Single_Reverse': {'p': [], 'r': [], 'f1': [], 'correct': [], 'len': [], 'avg_edit_dist': [], 'avg_norm_edit_dist': [],'time': [], },
@@ -49,7 +52,13 @@ if __name__ == "__main__":
             for line in f.readlines():
                 tmp = line.strip().split(",")
                 k = tmp[0].split('-')[0]
-                k = "_".join(k.split("_")[0:2]) if k.startswith("Single_") or k.startswith("Synthetic") else k
+                if k.startswith("Single_") or k.startswith("Synthetic"):
+                    k = "_".join(k.split("_")[0:2])
+                elif "DXF_Splitted" in file_db_name:
+                    k = "DXF"
+                else:
+                    pass  # k = k
+
 
                 dataset[k]['p'].append(float(tmp[1]))
                 dataset[k]['r'].append(float(tmp[2]))
@@ -67,7 +76,7 @@ if __name__ == "__main__":
 
     fp = None
 
-    print_ds = ['AJ', 'FF', 'Synthetic_basic', 'Single_Substr', 'Single_Replace', 'Single_Reverse']
+    print_ds = ['AJ', 'FF', 'DXF', 'Synthetic_basic', 'Single_Substr', 'Single_Replace', 'Single_Reverse']
 
     print("," + ",,,,,,,,".join(print_ds))
     s = "DS,"

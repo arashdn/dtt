@@ -1,6 +1,6 @@
 # Example of running tester
 
-DS_PATH="/home/arashdn/projects/deep_transformer/data/Datasets"
+DS_PATH="deep_transformer/data/Datasets"
 
 #model="/models/_s1/byt5-base-basic_synth_01000_10-checkpoints"
 model="/models/byt5-base-basic_synth_02000_10-checkpoints"

@@ -19,13 +19,14 @@ NUMBER_OF_EXAMPLES_FOR_JOIN = 5
 
 BASE_PATH = str(pathlib.Path(__file__).absolute().parent.parent.parent.absolute())
 DS_PATH = BASE_PATH + "/data/Datasets/FF_AJ_Splitted/"
+# DS_PATH = BASE_PATH + "/data/Datasets/DXF_Splitted/"
 # DS_PATH = BASE_PATH + "/data/Datasets/Synthetic_basic_20_50_Splitted/"
 # DS_PATH = BASE_PATH + "/data/Datasets/Single_Reverse_10_50_Splitted/"
 # DS_PATH = BASE_PATH + "/data/Datasets/Single_Substr_10_50_Splitted/"
 
 DS_NAME = pathlib.PurePath(DS_PATH).name
 
-OUT_FILE_PATH = BASE_PATH + f"/data/output_test/join_{DS_NAME}_{NUMBER_OF_EXAMPLES_FOR_JOIN}samp_{MATCHING_TYPE}.csv"
+OUT_FILE_PATH = BASE_PATH + f"/data/output_test/join_{DS_NAME}_{NUMBER_OF_EXAMPLES_FOR_JOIN:02}samp_{MATCHING_TYPE}.csv"
 
 
 sys.path.append(str(pathlib.Path(__file__).absolute().parent))
@@ -33,6 +34,7 @@ import utils
 
 MODEL_NAME = "google/byt5-base"
 # MODEL_NAME = "gpt3"
+# MODEL_NAME = "google/byt5-base,gpt3"
 
 SAMPLES_PER_EACH_INSTANCE = 2
 FAST_SAMPLING = False
@@ -46,6 +48,7 @@ transform = None
 MODEL = None
 TOKENIZER = None
 SRC_PREPARE = utils.src_prepare
+transform2 = None
 
 OPENAI = None
 
@@ -186,12 +189,20 @@ def find_joinable_value(inp, examples, targets):
     for example in examples:
         val = list(example) + [inp]
         model_inp = SRC_PREPARE(val)
+
         out = transform(model_inp)
 
         if out in outs:
             outs[out] += 1
         else:
             outs[out] = 1
+
+        if transform2 is not None:
+            out = transform2(model_inp)
+            if out in outs:
+                outs[out] += 1
+            else:
+                outs[out] = 1
 
     # srt_dict = {k: v for k, v in sorted(outs.items(), key=lambda item: item[1], reverse=True)}
     srt_lst = [k for k, v in sorted(outs.items(), key=lambda item: item[1], reverse=True)]
@@ -388,7 +399,7 @@ if __name__ == "__main__":
         if args.get('rel_auto_out_file_dir', None) is None:
             pass  # set defualt value
         else:
-            OUT_FILE_PATH = BASE_PATH + f"/{args['rel_auto_out_file_dir']}/joinmdl_{mdl}_DS_{DS_NAME}_{NUMBER_OF_EXAMPLES_FOR_JOIN}samp_{MATCHING_TYPE}.csv"
+            OUT_FILE_PATH = BASE_PATH + f"/{args['rel_auto_out_file_dir']}/joinmdl_{mdl}_DS_{DS_NAME}_{NUMBER_OF_EXAMPLES_FOR_JOIN:02}samp_{MATCHING_TYPE}.csv"
     elif args.get('rel_out_file_path', None) == '':
         OUT_FILE_PATH = None
     else:
@@ -402,6 +413,7 @@ if __name__ == "__main__":
 
 
     if MODEL_NAME == "google/byt5-small" or MODEL_NAME == "google/byt5-base" or MODEL_NAME == "google/byt5-large":
+        transform2 = None
         print("Loading Model...")
         transform = byt5_transform
 
@@ -416,6 +428,7 @@ if __name__ == "__main__":
 
         print("Model Loaded.")
     elif MODEL_NAME == "gpt3":
+        transform2 = None
         import openai
 
         openai.api_key_path = "openai.key"
@@ -423,6 +436,28 @@ if __name__ == "__main__":
         OPENAI = openai
 
         transform = gpt3_transformer
+    elif "," in MODEL_NAME:
+        tmp = MODEL_NAME.split(",")
+        if len(tmp) != 2:
+            raise Exception("Model name Wrong")
+        if tmp[0] not in ["google/byt5-small", "google/byt5-base", "google/byt5-large"] or tmp[1] != "gpt3":
+            raise Exception("Model name Wrong")
+
+        print("Loading Model...")
+        transform = byt5_transform
+        byt5trainer.MODEL_NAME = tmp[0]
+        TOKENIZER = byt5trainer.get_tokenizer()
+        trained_model = byt5trainer.TransModel.load_from_checkpoint(MODEL_PATH).to(device)
+        trained_model.freeze()
+        MODEL = trained_model.model
+        print("Model Loaded.")
+
+        import openai
+        openai.api_key_path = "openai.key"
+        OPENAI = openai
+        transform2 = gpt3_transformer
+        GPT3_PRINT = False
+
 
     else:
         raise Exception("Model name not defined")

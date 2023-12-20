@@ -10,7 +10,7 @@
 #                  --use-gpu y
 
 
-for dir in /home/arashdn/projects/deep_transformer/models/*/; do
+for dir in ./models/*/; do
 #dir="/home/arashdn/projects/deep_transformer/models/byt5-base-basic_synth_15000_10-checkpoints"
     if [ -d "$dir" ]; then
       name=$(basename "$dir")

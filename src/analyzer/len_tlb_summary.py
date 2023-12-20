@@ -3,9 +3,9 @@ import os
 import pathlib
 
 BASE_PATH = str(pathlib.Path(__file__).absolute().parent.parent.parent.absolute())
-# OUT_DIR_PATH = BASE_PATH + f"/data/output_len8_35/_substr_lens_splitteds_mdl01000"
+OUT_DIR_PATH = BASE_PATH + f"/data/output_len8_35/_substr_lens_splitteds_mdl01000"
 # OUT_DIR_PATH = BASE_PATH + f"/data/output/_reverse_lens_splitteds_mdl15000"
-OUT_DIR_PATH = BASE_PATH + f"/data/output/_reverse_lens_splitteds"
+# OUT_DIR_PATH = BASE_PATH + f"/data/output_noisy_examples_0.0"
 
 FILE_PREFIX = "joinmdl_"
 
