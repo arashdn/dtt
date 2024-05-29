@@ -2,9 +2,9 @@
 
 This repository contains resources developed within the following paper:
 
-    A. Dargahi Nobari, and D. Rafiei. “DTT: An Example-Driven Tabular Transformer by Leveraging Large Language Models”.
+    A. Dargahi Nobari, and D. Rafiei. “DTT: An Example-Driven Tabular Transformer for Joinability by Leveraging Large Language Models”.
 	
-You may check the [paper](https://arxiv.org/abs/2303.06748) ([PDF](https://arxiv.org/pdf/2303.06748)) for more information.
+You may check the [paper](https://dl.acm.org/doi/abs/10.1145/3639279) ([PDF](https://arxiv.org/pdf/2303.06748)) for more information.
 
 
 ## Requirements
@@ -87,3 +87,21 @@ The codes in this directory just summarize the results of the model into short t
 ## Citation
 
 Please cite the paper, If you used the codes in this repository.
+```
+@article{dtt,
+author = {Dargahi Nobari, Arash and Rafiei, Davood},
+title = {DTT: An Example-Driven Tabular Transformer for Joinability by Leveraging Large Language Models},
+year = {2024},
+issue_date = {February 2024},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {2},
+number = {1},
+url = {https://doi.org/10.1145/3639279},
+doi = {10.1145/3639279},
+journal = {Proc. ACM Manag. Data},
+month = {mar},
+articleno = {24},
+numpages = {24}
+}
+```
